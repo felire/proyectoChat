@@ -1,6 +1,7 @@
-package com.example.felipe.chat;
+package com.example.felipe.chatrevancha;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -12,12 +13,18 @@ import java.net.URL;
 /**
  * Created by felipe on 23/08/16.
  */
-public class DescargarImagen extends AsyncTask<String,Void,Bitmap>{
+public class DescargarImagen extends AsyncTask<String,Void,Bitmap>{ //Queda acopladisimo al traductor, se podria pensar otra forma
 
-    LoginFacebook mainActivity;
+    PersonaDescargadora contacto;
+    TraedorImagenRuta traductor;
+    Context context;
+    String path;
     //ProgressDialog progressDialog;
-    public DescargarImagen(LoginFacebook mainActivity){
-        this.mainActivity = mainActivity;
+    public DescargarImagen(PersonaDescargadora contacto, Context contextoEjecucion, String pathImagen){
+        this.contacto = contacto;
+        traductor = new TraedorImagenRuta();
+        this.context = contextoEjecucion;
+        this.path = pathImagen;
     }
 
     @Override
@@ -43,6 +50,8 @@ public class DescargarImagen extends AsyncTask<String,Void,Bitmap>{
     @Override
     protected void onPostExecute(Bitmap bitmap){
         super.onPostExecute(bitmap);
+        contacto.setImagen(traductor.guardarImagenMemoriaInterna(bitmap,context, path));
+        //System.out.println("Imagne descargada");
         //mainActivity.setImage(bitmap);
         //progressDialog.dismiss();
     }

@@ -1,4 +1,4 @@
-package com.example.felipe.chat;
+package com.example.felipe.chatrevancha;
 
 import android.content.Intent;
 import android.content.pm.PackageInstaller;

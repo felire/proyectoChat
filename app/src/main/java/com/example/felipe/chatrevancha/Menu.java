@@ -1,4 +1,4 @@
-package com.example.felipe.chat;
+package com.example.felipe.chatrevancha;
 
 import android.app.Fragment;
 import android.content.Intent;

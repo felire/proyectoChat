@@ -6,7 +6,7 @@
     xmlns:psts="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.example.felipe.chat.Menu">
+    tools:context="com.example.felipe.chatrevancha.Menu">
   <!---  <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0sp"
