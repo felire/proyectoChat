@@ -1,6 +1,4 @@
-package com.example.felipe.chatrevancha;
-
-import android.graphics.Bitmap;
+package com.example.felipe.chatvuelveacompilar;
 
 /**
  * Created by felipe on 31/08/16.

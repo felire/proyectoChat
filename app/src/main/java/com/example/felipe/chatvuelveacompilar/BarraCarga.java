@@ -1,7 +1,6 @@
-package com.example.felipe.chatrevancha;
+package com.example.felipe.chatvuelveacompilar;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.facebook.GraphRequestBatch;

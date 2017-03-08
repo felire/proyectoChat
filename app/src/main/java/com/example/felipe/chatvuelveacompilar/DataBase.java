@@ -1,7 +1,6 @@
-package com.example.felipe.chatrevancha;
+package com.example.felipe.chatvuelveacompilar;
 
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 

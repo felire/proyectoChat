@@ -1,10 +1,7 @@
-package com.example.felipe.chatrevancha;
+package com.example.felipe.chatvuelveacompilar;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,8 +11,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.felipe.chatrevancha.R;
 import com.facebook.login.LoginManager;
+
+import java.util.List;
 
 
 public class Chats extends Fragment implements View.OnClickListener{
@@ -28,11 +26,14 @@ public class Chats extends Fragment implements View.OnClickListener{
         /*salir = (Button) getView().findViewById(R.id.salir);
         salir.setOnClickListener(this);*/
         miFragment = inflater.inflate(R.layout.fragment_chats, container, false);
+        String gigante = "";
+        List<Contacto> contactos = Contacto.darTodosContactos(miFragment.getContext());
+        gigante = contactos.get(0).getNombre() + " " + contactos.get(0).getId() + " " + contactos.get(0).getImagen();
         salir = (Button) miFragment.findViewById(R.id.salir);
         salir.setOnClickListener(this);
         TextView texto = (TextView) miFragment.findViewById(R.id.texto);
         SharedPreferences preferencia = this.getActivity().getSharedPreferences("usuarioPreferencias", this.getActivity().MODE_PRIVATE);
-        texto.setText("nombre: "+ preferencia.getString("nombre", "defecto") + " id: "+preferencia.getString("id","defecto"));
+        texto.setText(gigante);
         ImageView imagen = (ImageView) miFragment.findViewById(R.id.imagen);
         imagen.setImageBitmap(new TraedorImagenRuta().cargarImagenDeMemoriaInterna(preferencia.getString("rutaImagen","defecto"), preferencia.getString("id", "defecto")));
         return miFragment;

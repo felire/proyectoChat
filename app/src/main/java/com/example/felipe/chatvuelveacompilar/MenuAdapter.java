@@ -1,10 +1,8 @@
-package com.example.felipe.chatrevancha;
+package com.example.felipe.chatvuelveacompilar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import java.util.List;
 
 /**
  * Created by felipe on 28/08/16.

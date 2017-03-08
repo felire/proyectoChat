@@ -1,33 +1,24 @@
-package com.example.felipe.chatrevancha;
+package com.example.felipe.chatvuelveacompilar;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
-import com.example.felipe.chatrevancha.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphRequestBatch;
 import com.facebook.GraphResponse;
-import com.facebook.ProfileTracker;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
@@ -35,9 +26,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class LoginFacebook extends AppCompatActivity implements View.OnClickListener{
     CallbackManager callbackManager;
@@ -59,7 +50,7 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         //System.out.println("Primer batch comienzo... \n");
                         darPerfil(object, perfil);
-                        System.out.println(perfil.getId());
+                        //System.out.println(perfil.getId());
                         //System.out.println("Primer batch ejecutada :) \n");
                     }
                 });
@@ -96,8 +87,9 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
                         progressDialog.dismiss();
                     }
                 });
-                batch.executeAsync();
-            }
+                new EjecutadorBatch(batch).execute();
+                //batch.executeAsync();
+        }
 
             @Override
             public void onCancel() {
@@ -180,8 +172,10 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
                // System.out.println("Pedimos URI: ");
                 //System.out.println(datosAmigos.getJSONObject(i).getJSONObject("picture").getJSONObject("data").getString("url"));
                 Uri uri = Uri.parse(datosAmigos.getJSONObject(i).getJSONObject("picture").getJSONObject("data").getString("url"));
-                DescargarImagen descargador = new DescargarImagen(contacto, this, contacto.getId());
-                descargador.execute(uri.toString());
+                /*DescargarImagen descargador = new DescargarImagen(contacto, this, contacto.getId());
+                descargador.execute(uri.toString());*/
+                DescargarImagenSincrona descargador = new DescargarImagenSincrona(contacto, this, contacto.getId());
+                descargador.descargar(uri.toString());
 
             } catch (JSONException e) {
                 System.out.println("Error JSON");
@@ -202,8 +196,11 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
             //System.out.println("Nombre cargado");
             Uri uri = Uri.parse(object.getJSONObject("picture").getJSONObject("data").getString("url"));
             //System.out.println("URI Parseada");
-            DescargarImagen descargador = new DescargarImagen(perfil, this, perfil.getId());
-            descargador.execute(uri.toString());
+            DescargarImagenSincrona descargador = new DescargarImagenSincrona(perfil, this, perfil.getId());
+            descargador.descargar(uri.toString());
+            /*DescargarImagen descargador = new DescargarImagen(perfil, this, perfil.getId());
+            descargador.execute(uri.toString());*/
+            System.out.println("Se cargo bien la ruta: "+ perfil.getImagen());
             //System.out.println("Imagen descargada");
 
         } catch (JSONException e) {
@@ -217,9 +214,9 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
         String query = "INSERT INTO Contactos (contacto_id, contacto_nombre,contacto_uri_foto) VALUES ";
         String queryFinal;
         ContentValues registro;
-        System.out.println("Creamos BD");
+        //System.out.println("Creamos BD");
         DataBase baseDatos = new DataBase(this, "BASE_DATOS_CHAT", null, 2);
-        System.out.println("Base de datos creada, ingresamos datos...");
+        //System.out.println("Base de datos creada, ingresamos datos...");
         for(int i = 0; i<contactos.size(); i++) {
             Contacto contacto = contactos.get(i);
             registro = new ContentValues();
@@ -228,25 +225,25 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
             registro.put("contacto_uri_foto", contacto.getImagen());
             baseDatos.getWritableDatabase().insert("Contactos", null, registro);
         }
-        System.out.println("Datos ingresados!!");
+      //  System.out.println("Datos ingresados!!");
         //Ya guardamos en la DB ahora guardamos en las sharedPreferences
         //System.out.println(perfil.getId());
         //System.out.println(perfil.getNombre());
         //System.out.println(perfil.getImagen());
-        System.out.println("Vamos a cargar las shared preferences");
+       // System.out.println("Vamos a cargar las shared preferences");
         SharedPreferences preferencia = getSharedPreferences("usuarioPreferencias", this.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferencia.edit();
         editor.putString("id", perfil.getId());
-        System.out.println("id cargada");
+        //System.out.println("id cargada");
         editor.putString("nombre", perfil.getNombre());
-        System.out.println("nombre cargado");
+        System.out.println("Rutaaa: "+ perfil.getImagen());
         editor.putString("rutaImagen", perfil.getImagen());
-        System.out.println("ruta cargado");
+       // System.out.println("ruta cargado");
         editor.putString("logeado","si"); //Esto lo podemos poner para evitar revisar el Token cada vez que logea.
 
 
-        System.out.println("Pre commit");
+       // System.out.println("Pre commit");
         editor.commit();
-        System.out.println("commit");
+        //System.out.println("commit");
     }
 }

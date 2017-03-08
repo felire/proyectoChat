@@ -1,6 +1,5 @@
-package com.example.felipe.chatrevancha;
+package com.example.felipe.chatvuelveacompilar;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,7 +49,9 @@ public class DescargarImagen extends AsyncTask<String,Void,Bitmap>{ //Queda acop
     @Override
     protected void onPostExecute(Bitmap bitmap){
         super.onPostExecute(bitmap);
-        contacto.setImagen(traductor.guardarImagenMemoriaInterna(bitmap,context, path));
+        String hola = traductor.guardarImagenMemoriaInterna(bitmap,context, path);
+        contacto.setImagen(hola);
+        System.out.println("Ruta es: " + contacto.getImagen());
         //System.out.println("Imagne descargada");
         //mainActivity.setImage(bitmap);
         //progressDialog.dismiss();

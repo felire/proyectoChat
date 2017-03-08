@@ -1,4 +1,4 @@
-package com.example.felipe.chatrevancha;
+package com.example.felipe.chatvuelveacompilar;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

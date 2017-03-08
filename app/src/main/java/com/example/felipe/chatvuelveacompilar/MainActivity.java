@@ -1,8 +1,6 @@
-package com.example.felipe.chatrevancha;
+package com.example.felipe.chatvuelveacompilar;
 
 import android.content.Intent;
-import android.content.pm.PackageInstaller;
-import android.media.tv.TvInputService;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 

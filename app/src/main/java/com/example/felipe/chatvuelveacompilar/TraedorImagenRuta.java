@@ -1,10 +1,9 @@
-package com.example.felipe.chatrevancha;
+package com.example.felipe.chatvuelveacompilar;
 
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,12 +28,12 @@ public class TraedorImagenRuta {
             fos = new FileOutputStream(mypath);
 
             // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(directory.getAbsolutePath()); //Chequeamos que devuelva bien la ruta
+        //System.out.println(directory.getAbsolutePath()); //Chequeamos que devuelva bien la ruta
         return directory.getAbsolutePath();
     }
 
