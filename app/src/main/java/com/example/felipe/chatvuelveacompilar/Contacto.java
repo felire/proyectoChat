@@ -1,6 +1,7 @@
 package com.example.felipe.chatvuelveacompilar;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 
 import java.io.Serializable;
@@ -44,7 +45,8 @@ public class Contacto implements PersonaDescargadora,Serializable {
         Contacto contacto;
         DataBase baseDatos = new DataBase(context, "BASE_DATOS_CHAT", null, 2);
         //System.out.println("Empezando a leer..");
-        Cursor c = baseDatos.getReadableDatabase().rawQuery("SELECT contacto_id,contacto_nombre,contacto_uri_foto FROM Contactos", null);
+        SharedPreferences preferencia = context.getSharedPreferences("usuarioPreferencias", context.MODE_PRIVATE);
+        Cursor c = baseDatos.getReadableDatabase().rawQuery("SELECT contacto_id,contacto_nombre,contacto_uri_foto FROM Contactos WHERE user_id = "+ preferencia.getString("id","defecto"), null);
         if(c.moveToFirst()){
             do {
                 contacto = new Contacto();

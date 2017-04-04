@@ -214,12 +214,15 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
         String query = "INSERT INTO Contactos (contacto_id, contacto_nombre,contacto_uri_foto) VALUES ";
         String queryFinal;
         ContentValues registro;
-        //System.out.println("Creamos BD");
+        System.out.println("Creamos BD");
+
         DataBase baseDatos = new DataBase(this, "BASE_DATOS_CHAT", null, 2);
+        System.out.println("Se creo! BD");
         //System.out.println("Base de datos creada, ingresamos datos...");
         for(int i = 0; i<contactos.size(); i++) {
             Contacto contacto = contactos.get(i);
             registro = new ContentValues();
+            registro.put("user_id",perfil.getId());
             registro.put("contacto_id", contacto.getId());
             registro.put("contacto_nombre", contacto.getNombre());
             registro.put("contacto_uri_foto", contacto.getImagen());
@@ -244,6 +247,7 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
 
        // System.out.println("Pre commit");
         editor.commit();
+        System.out.println("Cargamos los shades por lo menos.............");
         //System.out.println("commit");
     }
 }
