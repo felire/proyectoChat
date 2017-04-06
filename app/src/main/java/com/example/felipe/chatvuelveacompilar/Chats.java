@@ -36,6 +36,7 @@ public class Chats extends Fragment implements View.OnClickListener{
         texto.setText(gigante);
         ImageView imagen = (ImageView) miFragment.findViewById(R.id.imagen);
         imagen.setImageBitmap(new TraedorImagenRuta().cargarImagenDeMemoriaInterna(preferencia.getString("rutaImagen","defecto"), preferencia.getString("id", "defecto")));
+        new ConnectionThread(new ConnectionClient("192.168.0.98", 2023,  preferencia.getString("id", "defecto"))).execute();
         return miFragment;
     }
 

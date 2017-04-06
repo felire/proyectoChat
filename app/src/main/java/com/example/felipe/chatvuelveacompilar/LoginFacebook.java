@@ -247,7 +247,6 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
 
        // System.out.println("Pre commit");
         editor.commit();
-        System.out.println("Cargamos los shades por lo menos.............");
         //System.out.println("commit");
     }
 }

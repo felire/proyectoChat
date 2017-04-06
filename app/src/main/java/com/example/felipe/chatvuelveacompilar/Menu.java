@@ -1,5 +1,6 @@
 package com.example.felipe.chatvuelveacompilar;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,8 @@ public class Menu extends AppCompatActivity{
         PagerSlidingTabStrip tabus = (PagerSlidingTabStrip) findViewById(R.id.tabus);
         //tabus.setIndicatorHeight(3);
         tabus.setViewPager(viewPager);
+
+
         //PagerTabStrip tabs = (PagerTabStrip) findViewById(R.id.tabs);
         /*FragmentTabHost tabHost = (FragmentTabHost) findViewById(R.id.menu);
         tabHost.setup(this, getSupportFragmentManager(), R.id.berga);
