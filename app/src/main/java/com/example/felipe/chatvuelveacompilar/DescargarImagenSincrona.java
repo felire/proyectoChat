@@ -43,6 +43,5 @@ public class DescargarImagenSincrona {
     public void descargar(String direccion){
         String hola = traductor.guardarImagenMemoriaInterna(this.descargarImagen(direccion),context, path);
         contacto.setImagen(hola);
-        System.out.println("Ruta es: " + contacto.getImagen());
     }
 }

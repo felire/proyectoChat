@@ -1,5 +1,8 @@
 package com.example.felipe.chatvuelveacompilar;
 
+import android.content.ContentValues;
+import android.content.Context;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -13,7 +16,7 @@ class ConnectionClientt {
     private static final ConnectionClientt ourInstance = new ConnectionClientt();
     public Socket socket;
     private DataOutputStream streamOut = null;
-    private DataInputStream streamIn = null;
+    DataInputStream streamIn = null;
     String ip;
     int puerto;
     String id;
@@ -36,26 +39,45 @@ class ConnectionClientt {
 
     public void conectar(){
         try {
-            System.out.println("vamos a crear Socket");
             socket = new Socket(ip, puerto);
-            System.out.println("Creamos Socket, vamos a los input");
             streamIn = new DataInputStream(socket.getInputStream());
             streamOut = new DataOutputStream(socket.getOutputStream());
-            System.out.println("Creamos input y outputs");
-            System.out.println(id);
             streamOut.writeUTF(id); //Lo primero que mandamos es el id, asi el server los va registrando
             //System.out.println(streamIn.readUTF());
-            System.out.println("Mandamos el id!");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     public void enviarMensaje(String idReceptor, String mensaje){
         try {
+            System.out.println("Mandamos msj!!");
             streamOut.writeUTF(idReceptor);
             streamOut.writeUTF(mensaje);
+            System.out.println("Enviado");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void recibirMensaje(Context context) {
+        while (true) {
+            try {
+                System.out.println("Vamos a ver si recibimos mensajes............");
+                String emisorId = streamIn.readUTF();
+                String mensaje = streamIn.readUTF();
+                System.out.println("Mensaje de: " + emisorId + " y dice: " + mensaje);
+                //ContentValues registro;
+                //registro = new ContentValues();
+                //registro.put("user_id",perfil.getId());
+                // DataBase baseDatos = new DataBase(context, "BASE_DATOS_CHAT", null, 2);
+                // if(baseDatos.existeConversacion(id, emisorId)){
+
+                // }else{
+
+                // }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

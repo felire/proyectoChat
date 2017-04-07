@@ -18,7 +18,9 @@ public class ConnectionThreadEnviarMensaje extends AsyncTask<Void,Void,Void> {
     }
     @Override
     protected Void doInBackground(Void... nada) {
+        System.out.println("vamos a mandar el enviarMsj");
         connectionClient.enviarMensaje(idReceptor, mensaje);
+        System.out.println("enviarMsj mandado");
         return null;
     }
 }

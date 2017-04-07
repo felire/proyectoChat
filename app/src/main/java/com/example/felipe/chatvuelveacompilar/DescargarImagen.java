@@ -51,7 +51,6 @@ public class DescargarImagen extends AsyncTask<String,Void,Bitmap>{ //Queda acop
         super.onPostExecute(bitmap);
         String hola = traductor.guardarImagenMemoriaInterna(bitmap,context, path);
         contacto.setImagen(hola);
-        System.out.println("Ruta es: " + contacto.getImagen());
         //System.out.println("Imagne descargada");
         //mainActivity.setImage(bitmap);
         //progressDialog.dismiss();

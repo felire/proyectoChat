@@ -233,6 +233,6 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
         ConnectionClientt.getInstance().setId(perfil.getId());
         ConnectionClientt.getInstance().setIp("192.168.0.12");
         ConnectionClientt.getInstance().setPuerto(2023);
-        new ConnectionThread(ConnectionClientt.getInstance()).execute();
+        new ConnectionThread(ConnectionClientt.getInstance()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

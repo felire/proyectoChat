@@ -1,6 +1,7 @@
 package com.example.felipe.chatvuelveacompilar;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -48,4 +49,10 @@ public class DataBase extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(this.tablaConversacion);
         sqLiteDatabase.execSQL(this.tablaMensajexConv);
     }
+
+    public Boolean existeConversacion(String usuario, String emisorId){
+        Cursor cursor = this.getWritableDatabase().rawQuery("SELECT 1 FROM Conversacion WHERE user_id="+usuario+" AND contacto_id="+emisorId,null);
+        return cursor.moveToFirst();
+    }
+    //public void agregarMensaje(String usuario, )
 }

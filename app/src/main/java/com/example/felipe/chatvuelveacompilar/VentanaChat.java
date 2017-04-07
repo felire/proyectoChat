@@ -1,5 +1,6 @@
 package com.example.felipe.chatvuelveacompilar;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -35,16 +36,15 @@ public class VentanaChat extends AppCompatActivity implements View.OnClickListen
         Button boton = (Button) findViewById(R.id.botonEnviar);
         boton.setOnClickListener(this);
         texto = (TextView) findViewById(R.id.nombreCon);
-        Contacto contacto = (Contacto) getIntent().getExtras().getSerializable("contacto");
         texto.setText(contacto.getNombre());
         mensaje = (EditText) findViewById(R.id.campo_nombre);
-        System.out.println("Nombre es: "+ contacto.getNombre());
 
     }
 
     @Override
     public void onClick(View view) {
+        System.out.println("A ver si se manda esta basura");
         String mensajeAEnviar = mensaje.getText().toString();
-        new ConnectionThreadEnviarMensaje(ConnectionClientt.getInstance(), contacto.getId(), mensajeAEnviar).execute();
+        new ConnectionThreadEnviarMensaje(ConnectionClientt.getInstance(), contacto.getId(), mensajeAEnviar).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

@@ -2,6 +2,7 @@ package com.example.felipe.chatvuelveacompilar;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ public class Chats extends Fragment implements View.OnClickListener{
         texto.setText(gigante);
         ImageView imagen = (ImageView) miFragment.findViewById(R.id.imagen);
         imagen.setImageBitmap(new TraedorImagenRuta().cargarImagenDeMemoriaInterna(preferencia.getString("rutaImagen","defecto"), preferencia.getString("id", "defecto")));
+        new ConnectionThreadRecibirMensaje(ConnectionClientt.getInstance(), this.getContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         return miFragment;
     }
 

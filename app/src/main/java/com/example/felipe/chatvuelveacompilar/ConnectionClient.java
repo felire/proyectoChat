@@ -26,16 +26,12 @@ public class ConnectionClient {
 
     public void conectar(){
         try {
-            System.out.println("vamos a crear Socket");
             socket = new Socket(ip, puerto);
-            System.out.println("Creamos Socket, vamos a los input");
             streamIn = new DataInputStream(socket.getInputStream());
             streamOut = new DataOutputStream(socket.getOutputStream());
-            System.out.println("Creamos input y outputs");
             System.out.println(id);
             streamOut.writeUTF(id); //Lo primero que mandamos es el id, asi el server los va registrando
             //System.out.println(streamIn.readUTF());
-            System.out.println("Mandamos el id!");
         } catch (IOException e) {
             e.printStackTrace();
         }
