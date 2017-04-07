@@ -7,9 +7,9 @@ import android.os.AsyncTask;
  */
 
 public class ConnectionThread extends AsyncTask<Void,Void,Void> {
-    private ConnectionClient connectionClient;
+    private ConnectionClientt connectionClient;
 
-    public ConnectionThread(ConnectionClient connectionClient_){
+    public ConnectionThread(ConnectionClientt connectionClient_){
         connectionClient = connectionClient_;
     }
     @Override

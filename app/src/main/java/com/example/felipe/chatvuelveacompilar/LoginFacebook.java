@@ -158,7 +158,6 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
     public List<Contacto> darListaContactos(JSONArray datosAmigos){
-        System.out.println(datosAmigos.toString());
         List<Contacto> contactos = new ArrayList<>();
         for(int i = 0; i<datosAmigos.length(); i++){
             Contacto contacto = new Contacto();
@@ -188,20 +187,16 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
 
     public void darPerfil(JSONObject object, Perfil perfil){
         try {
-            //System.out.println(object.toString());
-            //System.out.println("Empezamos a cargar el perfil");
             perfil.setId(object.getString("id"));
-            //System.out.println("ID cargada");
+
             perfil.setNombre(object.getString("name"));
-            //System.out.println("Nombre cargado");
+
             Uri uri = Uri.parse(object.getJSONObject("picture").getJSONObject("data").getString("url"));
-            //System.out.println("URI Parseada");
+
             DescargarImagenSincrona descargador = new DescargarImagenSincrona(perfil, this, perfil.getId());
             descargador.descargar(uri.toString());
             /*DescargarImagen descargador = new DescargarImagen(perfil, this, perfil.getId());
             descargador.execute(uri.toString());*/
-            System.out.println("Se cargo bien la ruta: "+ perfil.getImagen());
-            //System.out.println("Imagen descargada");
 
         } catch (JSONException e) {
             System.out.println("error JSON");
@@ -214,11 +209,8 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
         String query = "INSERT INTO Contactos (contacto_id, contacto_nombre,contacto_uri_foto) VALUES ";
         String queryFinal;
         ContentValues registro;
-        System.out.println("Creamos BD");
 
         DataBase baseDatos = new DataBase(this, "BASE_DATOS_CHAT", null, 2);
-        System.out.println("Se creo! BD");
-        //System.out.println("Base de datos creada, ingresamos datos...");
         for(int i = 0; i<contactos.size(); i++) {
             Contacto contacto = contactos.get(i);
             registro = new ContentValues();
@@ -228,25 +220,19 @@ public class LoginFacebook extends AppCompatActivity implements View.OnClickList
             registro.put("contacto_uri_foto", contacto.getImagen());
             baseDatos.getWritableDatabase().insert("Contactos", null, registro);
         }
-      //  System.out.println("Datos ingresados!!");
         //Ya guardamos en la DB ahora guardamos en las sharedPreferences
-        //System.out.println(perfil.getId());
-        //System.out.println(perfil.getNombre());
-        //System.out.println(perfil.getImagen());
-       // System.out.println("Vamos a cargar las shared preferences");
         SharedPreferences preferencia = getSharedPreferences("usuarioPreferencias", this.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferencia.edit();
         editor.putString("id", perfil.getId());
-        //System.out.println("id cargada");
         editor.putString("nombre", perfil.getNombre());
-        System.out.println("Rutaaa: "+ perfil.getImagen());
         editor.putString("rutaImagen", perfil.getImagen());
-       // System.out.println("ruta cargado");
         editor.putString("logeado","si"); //Esto lo podemos poner para evitar revisar el Token cada vez que logea.
 
 
-       // System.out.println("Pre commit");
         editor.commit();
-        //System.out.println("commit");
+        ConnectionClientt.getInstance().setId(perfil.getId());
+        ConnectionClientt.getInstance().setIp("192.168.0.12");
+        ConnectionClientt.getInstance().setPuerto(2023);
+        new ConnectionThread(ConnectionClientt.getInstance()).execute();
     }
 }
