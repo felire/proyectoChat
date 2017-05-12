@@ -40,6 +40,7 @@ public class VentanaChat extends AppCompatActivity implements View.OnClickListen
         texto = (TextView) findViewById(R.id.nombreCon);
         texto.setText(contacto.getNombre());
         mensaje = (EditText) findViewById(R.id.campo_nombre);
+        mensajes = (RecyclerView) findViewById(R.id.mensajes);
 
     }
 

@@ -44,10 +44,34 @@ class ConnectionClientt {
             streamOut.writeUTF(id); //Lo primero que mandamos es el id, asi el server los va registrando
             //System.out.println(streamIn.readUTF());
     }
-    public void enviarMensaje(String idReceptor, String mensaje) throws IOException{
+    public void enviarMensaje(String idReceptor, String mensaje, Context context) throws IOException{
             System.out.println("Mandamos msj!!");
             streamOut.writeUTF(idReceptor);
             streamOut.writeUTF(mensaje);
+
+        ContentValues registro;
+        registro = new ContentValues();
+        registro.put("user_id",id); //Es la id del dueño del fono
+        registro.put("contacto_id",idReceptor);
+        int idConver;
+        DataBase baseDatos = new DataBase(context, "BASE_DATOS_CHAT", null, 2);
+        if(baseDatos.existeConversacion(id, idReceptor)){ //agregamos msj a la conver
+            idConver = baseDatos.darIdConversacion(id, idReceptor);
+            registro.put("conversacion_id",idConver);
+            registro.put("esDeUser", true);
+            registro.put("mensaje",mensaje);
+            baseDatos.getWritableDatabase().insert("MensajeXConv", null, registro);
+        }else{ //Si no existe la conver la creamos y dsps agregamos el msj
+            baseDatos.getWritableDatabase().insert("Conversacion",null,registro);
+            registro = new ContentValues();
+            registro.put("user_id",id); //Es la id del dueño del fono
+            registro.put("contacto_id",idReceptor);
+            idConver = baseDatos.darIdConversacion(id, idReceptor);
+            registro.put("conversacion_id",idConver);
+            registro.put("esDeUser", true);
+            registro.put("mensaje",mensaje);
+            baseDatos.getWritableDatabase().insert("MensajeXConv", null, registro);
+        }
             System.out.println("Enviado");
     }
 
