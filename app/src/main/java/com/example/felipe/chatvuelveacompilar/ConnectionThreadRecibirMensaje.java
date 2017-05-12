@@ -20,7 +20,11 @@ public class ConnectionThreadRecibirMensaje extends AsyncTask<Void,Void,Void> {
     }
     @Override
     protected Void doInBackground(Void... nada) {
-        connectionClient.recibirMensaje(context);
+        try {
+            connectionClient.recibirMensaje(context);
+        } catch (IOException e) {
+
+        }
         return null;
     }
 }

@@ -24,7 +24,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     private String tablaMensajexConv = "CREATE TABLE MensajeXConv("+
                                         "mensaje_id INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                                        "conversacion_id,"+
+                                        "conversacion_id INTEGER,"+
                                         "fecha DATETIME,"+
                                         "esDeUser BIT,"+
                                         "mensaje VARCHAR(400),"+
@@ -53,6 +53,14 @@ public class DataBase extends SQLiteOpenHelper {
     public Boolean existeConversacion(String usuario, String emisorId){
         Cursor cursor = this.getWritableDatabase().rawQuery("SELECT 1 FROM Conversacion WHERE user_id="+usuario+" AND contacto_id="+emisorId,null);
         return cursor.moveToFirst();
+    }
+    public int darIdConversacion(String usuario, String emisorId){
+        Cursor cursor = this.getWritableDatabase().rawQuery("SELECT conversacion_id FROM Conversacion WHERE user_id="+usuario+" AND contacto_id="+emisorId,null);
+        int converId = -1;
+        if(cursor.moveToFirst()){
+            converId = cursor.getInt(0);
+        }
+        return converId;
     }
     //public void agregarMensaje(String usuario, )
 }

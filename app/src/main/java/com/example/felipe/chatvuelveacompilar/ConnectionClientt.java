@@ -37,47 +37,49 @@ class ConnectionClientt {
     private ConnectionClientt() {
     }
 
-    public void conectar(){
-        try {
+    public void conectar() throws IOException{
             socket = new Socket(ip, puerto);
             streamIn = new DataInputStream(socket.getInputStream());
             streamOut = new DataOutputStream(socket.getOutputStream());
             streamOut.writeUTF(id); //Lo primero que mandamos es el id, asi el server los va registrando
             //System.out.println(streamIn.readUTF());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
-    public void enviarMensaje(String idReceptor, String mensaje){
-        try {
+    public void enviarMensaje(String idReceptor, String mensaje) throws IOException{
             System.out.println("Mandamos msj!!");
             streamOut.writeUTF(idReceptor);
             streamOut.writeUTF(mensaje);
             System.out.println("Enviado");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
-    public void recibirMensaje(Context context) {
+    public void recibirMensaje(Context context) throws IOException{
         while (true) {
-            try {
                 System.out.println("Vamos a ver si recibimos mensajes............");
                 String emisorId = streamIn.readUTF();
                 String mensaje = streamIn.readUTF();
                 System.out.println("Mensaje de: " + emisorId + " y dice: " + mensaje);
-                //ContentValues registro;
-                //registro = new ContentValues();
-                //registro.put("user_id",perfil.getId());
-                // DataBase baseDatos = new DataBase(context, "BASE_DATOS_CHAT", null, 2);
-                // if(baseDatos.existeConversacion(id, emisorId)){
-
-                // }else{
-
-                // }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                 ContentValues registro;
+                 registro = new ContentValues();
+                 registro.put("user_id",id); //Es la id del dueño del fono
+                 registro.put("contacto_id",emisorId);
+                 int idConver;
+                 DataBase baseDatos = new DataBase(context, "BASE_DATOS_CHAT", null, 2);
+                 if(baseDatos.existeConversacion(id, emisorId)){ //agregamos msj a la conver
+                    idConver = baseDatos.darIdConversacion(id, emisorId);
+                     registro.put("conversacion_id",idConver);
+                     registro.put("esDeUser", false);
+                     registro.put("mensaje",mensaje);
+                     baseDatos.getWritableDatabase().insert("MensajeXConv", null, registro);
+                 }else{ //Si no existe la conver la creamos y dsps agregamos el msj
+                    baseDatos.getWritableDatabase().insert("Conversacion",null,registro);
+                     registro = new ContentValues();
+                     registro.put("user_id",id); //Es la id del dueño del fono
+                     registro.put("contacto_id",emisorId);
+                     idConver = baseDatos.darIdConversacion(id, emisorId);
+                     registro.put("conversacion_id",idConver);
+                     registro.put("esDeUser", false);
+                     registro.put("mensaje",mensaje);
+                     baseDatos.getWritableDatabase().insert("MensajeXConv", null, registro);
+                 }
         }
     }
 

@@ -24,16 +24,12 @@ public class ConnectionClient {
         this.id = id;
     }
 
-    public void conectar(){
-        try {
+    public void conectar() throws IOException{
             socket = new Socket(ip, puerto);
             streamIn = new DataInputStream(socket.getInputStream());
             streamOut = new DataOutputStream(socket.getOutputStream());
             System.out.println(id);
             streamOut.writeUTF(id); //Lo primero que mandamos es el id, asi el server los va registrando
-            //System.out.println(streamIn.readUTF());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            //System.out.println(streamIn.readUTF())
     }
 }
